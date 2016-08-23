@@ -4,7 +4,7 @@ require_relative 'models'
 
 
 get '/' do
-  'Hello'
+  erb :index
 end
 
 get '/updatedata' do
