@@ -1,0 +1,21 @@
+{
+  "name": "fantasy-football",
+  "homepage": "https://github.com/kirbyk/fantasy-football",
+  "authors": [
+    "Kirby Kohlmorgen <kirby@kkohlmorgen.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.3"
+  }
+}
