@@ -10,10 +10,15 @@ WEEKS = 1..17
 POSITIONS = ['QB', 'RB', 'WR', 'TE', 'K', 'DEF']
 POSITIONS_WITHOUT_DEF = POSITIONS - ['DEF']
 
+class MyTeam
+  def self.get
+    MONGO[:my_team].find().sort(dt: -1).limit(1).first.to_h
+  end
+end
 
 module FFNerdCache
   def self.get(collection, query = {})
-    MONGO[collection].find(query).sort(ts: -1).limit(1).first.to_h
+    MONGO[collection].find(query).sort(dt: -1).limit(1).first.to_h
   end
 
   class AuctionValues

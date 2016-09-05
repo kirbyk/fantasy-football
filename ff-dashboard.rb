@@ -1,10 +1,27 @@
 require 'sinatra'
+require 'sinatra/json'
 
 require_relative 'models'
 
 
+set :public_folder, File.dirname(__FILE__) + '/assets'
+
+
 get '/' do
+  my_team = MyTeam.get
+  @context = {
+    players: my_team['players']
+  }
   erb :index, layout: :base
+end
+
+get '/players' do
+  json FFNerdCache::Players.get['players']
+end
+
+post '/players/add' do
+  JSON.parse request.body.read
+  'test'
 end
 
 get '/updatedata' do
