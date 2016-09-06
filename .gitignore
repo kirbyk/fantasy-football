@@ -1,4 +1,4 @@
 *.log
 .DS_Store
 Gemfile.lock
-assets/lib
+node_modules

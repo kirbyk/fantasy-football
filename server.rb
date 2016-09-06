@@ -4,18 +4,8 @@ require 'sinatra/json'
 require_relative 'models'
 
 
-set :public_folder, File.dirname(__FILE__) + '/assets'
-
-
-get '/' do
-  my_team = MyTeam.get
-  @context = {
-    players: my_team['players']
-  }
-  erb :index, layout: :base
-end
-
 get '/players' do
+  response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
   json FFNerdCache::Players.get['players']
 end
 
