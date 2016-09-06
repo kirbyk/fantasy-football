@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Reactable, { Table } from 'reactable';
+import { Table } from 'reactable';
 import './App.css';
 
 class App extends Component {
@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Table className="table" data={this.state.players} itemsPerPage={25} 
+        <Table className="table" data={this.state.players} itemsPerPage={10} 
           pageButtonLimit={5} filterable={['display_name']} />
       </div>
     );
