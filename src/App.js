@@ -25,7 +25,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.players);
     return (
       <div className="App">
         <Table className="table" data={this.state.players} itemsPerPage={25} 
