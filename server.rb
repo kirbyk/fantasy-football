@@ -4,6 +4,11 @@ require 'sinatra/json'
 require_relative 'models'
 
 
+get '/myteam' do
+  response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+  json MyTeam.get['players']
+end
+
 get '/players' do
   response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
   json FFNerdCache::Players.get['players']
