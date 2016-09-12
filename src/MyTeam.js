@@ -1,9 +1,18 @@
 import Autosuggest from 'react-autosuggest';
-import Fuse from 'fuse.js';
+import fuzzysearch from 'fuzzysearch';
 import React, { Component } from 'react';
 import { Table, Thead, Th } from 'reactable';
 import './Players.css';
 
+
+function getSuggestions(players, value) {
+  const inputValue = value.trim().toLowerCase();
+  const inputLength = inputValue.length;
+
+  return inputLength === 0 ? [] : players.filter(player =>
+    fuzzysearch(inputValue, player.display_name.toLowerCase())
+  );
+}
 
 function getSuggestionValue(suggestion) {
   return suggestion.display_name;
@@ -19,7 +28,7 @@ class MyTeam extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fuse: null,
+      allPlayers: [],
       myPlayers: [],
       suggestions: [],
       value: '',
@@ -45,7 +54,7 @@ class MyTeam extends Component {
       return response.json();
     }).then(function(data) {
       this.setState({
-        fuse: new Fuse(data, { keys: ['display_name'] }),
+        allPlayers: data
       });
     }.bind(this)).catch(function(err) {
       console.error(err);
@@ -60,7 +69,7 @@ class MyTeam extends Component {
 
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: this._getSuggestions(value)
+      suggestions: getSuggestions(this.state.allPlayers, value)
     });
   };
 
@@ -69,10 +78,6 @@ class MyTeam extends Component {
       suggestions: []
     });
   };
-
-  _getSuggestions(value) {
-    return this.state.fuse.search(value);
-  }
 
   render() {
     const {
