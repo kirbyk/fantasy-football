@@ -2,7 +2,7 @@ import Autosuggest from 'react-autosuggest';
 import fuzzysearch from 'fuzzysearch';
 import React, { Component } from 'react';
 import { Table, Thead, Th } from 'reactable';
-import './Players.css';
+import './MyTeam.css';
 
 
 function getSuggestions(players, value) {
@@ -61,6 +61,20 @@ class MyTeam extends Component {
     });
   }
 
+  onSuggestionSelected(event, data) {
+    const { suggestion } = data;
+
+    const index = this.state.allPlayers.indexOf(suggestion);
+
+    this.setState({
+      allPlayers: [
+        ...this.state.allPlayers.slice(0, index),
+        ...this.state.allPlayers.slice(index + 1)
+      ],
+      myPlayers: this.state.myPlayers.concat(suggestion),
+    });
+  }
+
   onChange = (event, { newValue }) => {
     this.setState({
       value: newValue
@@ -106,10 +120,10 @@ class MyTeam extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          onSuggestionSelected={this.onSuggestionSelected.bind(this)}
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps} />
-        <button>Add Player</button>
       </div>
     );
   }
