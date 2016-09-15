@@ -50,14 +50,21 @@
     "url-loader": "0.5.7",
     "webpack": "1.13.2",
     "webpack-dev-server": "1.15.1",
-    "whatwg-fetch": "1.0.0"
+    "whatwg-fetch": "^1.0.0"
   },
   "dependencies": {
+    "axios": "^0.14.0",
+    "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
     "fuzzysearch": "^1.0.3",
+    "mongodb": "^2.2.9",
+    "q": "^1.4.1",
     "react": "^15.3.1",
     "react-autosuggest": "^6.0.3",
     "react-dom": "^15.3.1",
     "react-router": "^2.7.0",
+    "react-select": "^0.9.1",
     "reactable": "^0.14.0"
   },
   "scripts": {
