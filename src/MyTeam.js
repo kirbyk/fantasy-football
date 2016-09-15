@@ -1,8 +1,9 @@
+import _ from 'lodash';
 import Autosuggest from 'react-autosuggest';
 import fuzzysearch from 'fuzzysearch';
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { Table, Thead, Th } from 'reactable';
+import { Table, Thead, Th, Tr } from 'reactable';
 
 import './MyTeam.css';
 import 'react-select/dist/react-select.css';
@@ -154,7 +155,6 @@ class MyTeam extends Component {
       value,
       week,
     } = this.state;
-    console.log(week);
 
     const inputProps = {
       placeholder: 'Type a player.',
@@ -182,6 +182,10 @@ class MyTeam extends Component {
       { value: 17, label: 'Week Seventeen' },
     ];
 
+    var total = _.reduce(myPlayers, function(sum, player) {
+      return sum + parseFloat(player.standard);
+    }, 0);
+
     return (
       <div className="players">
         <Select
@@ -191,13 +195,15 @@ class MyTeam extends Component {
           onChange={this.onWeekChange.bind(this)}
         />
 
-        <Table className="table" data={myPlayers} itemsPerPage={10} 
+        <Table className="table" data={myPlayers} itemsPerPage={20} 
           pageButtonLimit={5} filterable={['display_name']}>
           <Thead className="thead-inverse">
             <Th column="name">Name</Th>
             <Th column="position">Position</Th>
             <Th column="standard">Projected</Th>
           </Thead>
+          <Tr className="special-row"
+          data={{ name: '', position: '', standard: total }} />
         </Table>
 
         <Autosuggest
