@@ -19,8 +19,6 @@ MongoClient.connect(url, function(err, db) {
 
 
 exports.add = function(week, player) {
-  console.log('adding a player', week, player);
-
   DB.collection('team').updateOne({
     week: week
   }, {
@@ -41,7 +39,7 @@ exports.get = function(week) {
       deferred.reject(err);
     }
 
-    deferred.resolve(doc.players);
+    deferred.resolve(doc);
   });
 
   return deferred.promise;

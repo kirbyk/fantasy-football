@@ -92,6 +92,7 @@ class MyTeam extends Component {
         ...this.state.allPlayers.slice(index + 1)
       ],
       myPlayers: this.state.myPlayers.concat(suggestion),
+      value: '',
     });
 
     fetch('http://localhost:4567/team/players', {
@@ -195,6 +196,7 @@ class MyTeam extends Component {
           <Thead className="thead-inverse">
             <Th column="name">Name</Th>
             <Th column="position">Position</Th>
+            <Th column="standard">Projected</Th>
           </Thead>
         </Table>
 
