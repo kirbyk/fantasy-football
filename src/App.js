@@ -8,6 +8,7 @@ class App extends Component {
       <div className="App">
         Home
         <Link to='/myteam'>My Team</Link>
+        <Link to='/opponents'>Opponents</Link>
         <Link to='/players'>Players</Link>
         {this.props.children}
       </div>

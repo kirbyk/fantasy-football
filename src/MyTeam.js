@@ -162,6 +162,7 @@ class MyTeam extends Component {
       onChange: this.onChange
     };
 
+    // TODO: abstract this
     var options = [
       { value: 1, label: 'Week One' },
       { value: 2, label: 'Week Two' },
@@ -195,8 +196,7 @@ class MyTeam extends Component {
           onChange={this.onWeekChange.bind(this)}
         />
 
-        <Table className="table" data={myPlayers} itemsPerPage={20} 
-          pageButtonLimit={5} filterable={['display_name']}>
+        <Table className="table" data={myPlayers}>
           <Thead className="thead-inverse">
             <Th column="name">Name</Th>
             <Th column="position">Position</Th>

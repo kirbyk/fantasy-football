@@ -20,13 +20,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var weekController = require('./controllers/week');
 var teamController = require('./controllers/team');
+var opponentsController = require('./controllers/opponents');
 var playersController = require('./controllers/players');
 
 app.get('/week', weekController.getWeek);
 app.post('/week', weekController.setWeek);
+
 app.get('/team/players', teamController.getPlayers);
 app.post('/team/players', teamController.addPlayer);
+
+app.get('/opponents', opponentsController.getOpponents);
+app.post('/opponents', opponentsController.addOpponent);
+
 app.get('/players', playersController.getPlayers);
+
 app.get('*', function(req, res) {
   res.sendStatus(404);
 });
