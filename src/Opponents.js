@@ -12,6 +12,7 @@ class Opponents extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newOpponent: '',
       opponents: [],
       week: 1,
     };
@@ -45,7 +46,12 @@ class Opponents extends Component {
     });
   }
 
-  addOpponent(opponentName) {
+  addOpponent() {
+    const {
+      newOpponent,
+      week,
+    } = this.state;
+
     fetch('http://localhost:4567/opponents', {
       method: 'POST',
       headers: {
@@ -53,11 +59,17 @@ class Opponents extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        week: val,
-        opponentName: opponentName,
+        opponentName: newOpponent,
+        week: week,
       })
     }).catch(function(err) {
       console.error(err);
+    });
+  }
+
+  onNewOpponentInputChange(event) {
+    this.setState({
+      newOpponent: event.target.value
     });
   }
 
@@ -140,7 +152,8 @@ class Opponents extends Component {
 
         { opponentMarkups }
 
-        <button onClick={this.addOpponent().bind(this)}>Add Opponent</button>
+        <input onChange={this.onNewOpponentInputChange.bind(this)}/>
+        <button onClick={this.addOpponent.bind(this)}>Add Opponent</button>
       </div>
     );
   }
