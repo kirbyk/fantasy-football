@@ -1,6 +1,5 @@
 require('dotenv').config({
-  path: '../.env',
-  silent: true
+  silent: true,
 });
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -19,18 +18,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var weekController = require('./controllers/week');
-var teamController = require('./controllers/team');
-var opponentsController = require('./controllers/opponents');
+var teamsController = require('./controllers/teams');
 var playersController = require('./controllers/players');
 
 app.get('/week', weekController.getWeek);
 app.post('/week', weekController.setWeek);
 
-app.get('/team/players', teamController.getPlayers);
-app.post('/team/players', teamController.addPlayer);
-
-app.get('/opponents', opponentsController.getOpponents);
-app.post('/opponents', opponentsController.addOpponent);
+app.get('/teams', teamsController.get);
+app.post('/teams', teamsController.post);
 
 app.get('/players', playersController.getPlayers);
 

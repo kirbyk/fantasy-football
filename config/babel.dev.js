@@ -13,6 +13,7 @@ module.exports = {
     require.resolve('babel-preset-react')
   ],
   plugins: [
+    require.resolve('jsx-control-statements'),
     // class { handleClick = () => { } }
     require.resolve('babel-plugin-transform-class-properties'),
     // { ...todo, completed: true }

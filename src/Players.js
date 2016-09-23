@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Thead, Th } from 'reactable';
-import './Players.css';
+
 
 class Players extends Component {
   constructor(props) {

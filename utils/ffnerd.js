@@ -43,6 +43,7 @@ module.exports = {
       getKRankings(),
       getDEFRankings(),
     ]).then(axios.spread(function(QBResponse, RBResponse, WRResponse, TEResponse, KResponse, DEFResponse) {
+      console.log(QBResponse);
       var rankings = QBResponse.data.Rankings.concat(RBResponse.data.Rankings,
           WRResponse.data.Rankings, TEResponse.data.Rankings,
           KResponse.data.Rankings, DEFResponse.data.Rankings);

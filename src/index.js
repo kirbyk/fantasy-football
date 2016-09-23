@@ -2,20 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import App from './App';
-import MyTeam from './MyTeam';
-import Player from './Player';
+import Teams from './Teams';
 import Players from './Players';
 import NotFound from './NotFound';
-import Opponents from './Opponents';
 import './index.css';
 
+// TODO: fix that you can't go to root...
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <Route path="/myteam" component={MyTeam}/>
-      <Route path="/opponents" component={Opponents}/>
+      <Route path="/teams" component={Teams}/>
       <Route path="/players" component={Players}/>
-      <Route path="/players/:playerId" component={Player}/>
     </Route>
     <Route path="*" component={NotFound}/>
   </Router>
