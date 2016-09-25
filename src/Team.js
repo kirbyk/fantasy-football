@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { Box } from 'reflexbox';
+import { Box, Grid } from 'reflexbox';
 import {
+  ButtonOutline,
   Panel,
   PanelHeader,
 } from 'rebass';
@@ -8,6 +9,7 @@ import React, { Component } from 'react';
 import { Table, Thead, Th, Tr } from 'reactable';
 
 import Constants from '../utils/Constants';
+import PlayerSearch from './PlayerSearch';
 
 import './Team.css';
 
@@ -15,25 +17,95 @@ import './Team.css';
 class Team extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      editText: 'Edit Team',
+      editingPosition: null,
+      isEditing: false,
+      team: props.team,
+    };
+  }
+
+  toggleEditing() {
+    const { editText, isEditing } = this.state;
+
+    if (isEditing) {
+      return this.setState({
+        editText: 'Edit Team',
+        isEditing: false,
+      });
+    }
+
+    return this.setState({
+      editText: 'Save Changes',
+      isEditing: true,
+    });
+  }
+
+  editRow(position) {
+    let { team } = this.state;
+    let player = team[position];
+
+    player.playerName = <PlayerSearch
+      onSelection={this.updatePlayerRow.bind(this)}
+      currentWeek={team.week}
+    />;
+    team[position] = player;
+
+    this.setState({
+      editingPosition: position,
+      team: team,
+    });
+  }
+
+  updatePlayerRow(player) {
+    let { editingPosition, team } = this.state;
+
+    team[editingPosition] = player;
+
+    this.setState({
+      team: team,
+    });
+
+    fetch(`http://localhost:4567/teams`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        team: team,
+      }),
+    }).catch(function(err) {
+      console.error(err);
+    });
   }
 
   render() {
-    const { team } = this.props;
+    const { editText, team } = this.state;
 
     const projectedScore = _.reduce(team, function(sum, val, key) {
       if (_.includes(Constants.positions.starting, key)) {
-        return sum + val.projection;
+        return sum + parseFloat(val.projection);
       }
 
       return sum;
-    }, 0);
+    }, 0).toFixed(1);
 
     // TODO: fix the box spacing
     return (
       <Box col={6} p={1} className="team">
         <Panel>
           <PanelHeader>
-            {team.teamName} | Projected Score: {projectedScore}
+            <Grid col={6}>
+              {team.teamName} | Projected Score: {projectedScore}
+            </Grid>
+            <Grid col={6}>
+              <Box flex justify="flex-end">
+                <ButtonOutline color="white" onClick={this.toggleEditing.bind(this)}>
+                  {editText}
+                </ButtonOutline>
+              </Box>
+            </Grid>
           </PanelHeader>
 
           <Table className="table">
@@ -48,25 +120,15 @@ class Team extends Component {
               <Th column="opponent">Opponent</Th>
             </Thead>
 
-            <Tr className="QB-row" data={{slot: 'QB', ...team.QB}} />
-            <Tr className="RB1-row" data={{slot: 'RB', ...team.RB1}} />
-            <Tr className="RB2-row" data={{slot: 'RB', ...team.RB2}} />
-            <Tr className="WR1-row" data={{slot: 'WR', ...team.WR1}} />
-            <Tr className="WR2-row" data={{slot: 'WR', ...team.WR2}} />
-            <Tr className="TE-row" data={{slot: 'TE', ...team.TE}} />
-            <Tr className="FLEX-row" data={{slot: 'FLEX', ...team.FLEX}} />
-            <Tr className="D/ST-row" data={{slot: 'D/ST', ...team['D/ST']}} />
-            <Tr className="K-row" data={{slot: 'K', ...team.K}} />
+            {Constants.positions.starting.map((position) => (
+              <Tr onClick={() => this.editRow(position)} data={{slot: position, ...team[position]}} />
+            ))}
 
             <Tr className="seperator" />
 
-            <Tr className="Bench1-row" data={{slot: 'Bench', ...team.Bench1}} />
-            <Tr className="Bench2-row" data={{slot: 'Bench', ...team.Bench2}} />
-            <Tr className="Bench3-row" data={{slot: 'Bench', ...team.Bench3}} />
-            <Tr className="Bench4-row" data={{slot: 'Bench', ...team.Bench4}} />
-            <Tr className="Bench5-row" data={{slot: 'Bench', ...team.Bench5}} />
-            <Tr className="Bench6-row" data={{slot: 'Bench', ...team.Bench6}} />
-            <Tr className="Bench7-row" data={{slot: 'Bench', ...team.Bench7}} />
+            {Constants.positions.bench.map((position) => (
+              <Tr onClick={() => this.editRow(position)} data={{slot: 'Bench', ...team[position]}} />
+            ))}
           </Table>
         </Panel>
       </Box>

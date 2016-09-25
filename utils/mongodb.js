@@ -1,4 +1,3 @@
-// TODO: abstract this
 var MongoClient = require('mongodb').MongoClient;
 
 
@@ -12,6 +11,7 @@ exports.run = function(callback) {
 
     callback(db);
 
-    db.close();
+    // TODO: figure out how to uncomment this
+    // db.close();
   });
 };

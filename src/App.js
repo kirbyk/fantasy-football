@@ -40,7 +40,7 @@ class App extends Component {
       },
       body: JSON.stringify({
         week: newWeek
-      })
+      }),
     }).catch(function(err) {
       console.error(err);
     });

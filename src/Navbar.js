@@ -15,7 +15,7 @@ const Navbar = ({
   currentWeek,
   switchWeek,
 }) => (
-  <Toolbar>
+  <Toolbar px={2}>
     <Heading level={2}>Fantasy Football</Heading>
 
     <Space x={2} />

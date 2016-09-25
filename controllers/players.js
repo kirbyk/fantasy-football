@@ -1,29 +1,35 @@
 var ffnerd = require('../utils/ffnerd.js');
-var players = require('../models/players');
+var Players = require('../models/players');
 
 
 exports.getPlayers = function(req, res) {
   var week = parseInt(req.query.week);
+  Players
+    .getPlayersForWeek(week)
+    .then(function(data) {
+      res.json(data);
+    });
+};
 
-  console.log('here!');
-  players.get(week).then(function(data) {
-    // No info in the database. Fetch from ffnerd.
-    if (!data) {
-      ffnerd.weeklyRankings(week)
-        .then(function(data) {
-          players.add(week, data);
-          console.log('here2!');
-
-          return res.json({
-            players: data,
-          });
+exports.updatePlayers = function(req, res) {
+  // TODO: figure out how to get game time and opponent
+  var week = parseInt(req.body.week);
+  ffnerd
+    .weeklyRankings(week)
+    .then(function(players) {
+      players.forEach(function(player) {
+        Players.upsertPlayer({
+          week: parseInt(player.week),
+          playerId: player.playerId,
+          playerName: player.name,
+          position: player.position,
+          projection: player.standard,
+          status: player.gameStatus,
+          // gameDateTime: ,
+          teamName: player.team,
+          // opponent: ,
         });
-    } else {
-      // Data was in the database. Send it.
-          console.log('here3!');
-      res.json({
-        players: data.players
       });
-    }
-  });
+      res.json('success');
+    });
 };

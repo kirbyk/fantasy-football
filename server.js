@@ -25,9 +25,10 @@ app.get('/week', weekController.getWeek);
 app.post('/week', weekController.setWeek);
 
 app.get('/teams', teamsController.get);
-app.post('/teams', teamsController.post);
+app.post('/teams', teamsController.updateTeam);
 
 app.get('/players', playersController.getPlayers);
+app.post('/players', playersController.updatePlayers);
 
 app.get('*', function(req, res) {
   res.sendStatus(404);
